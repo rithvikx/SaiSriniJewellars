@@ -42,6 +42,10 @@ export async function POST(req: NextRequest) {
   };
 
   products.unshift(newProduct);
-  writeProducts(products);
+  try {
+    writeProducts(products);
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 503 });
+  }
   return NextResponse.json(newProduct, { status: 201 });
 }

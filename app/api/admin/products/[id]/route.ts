@@ -38,7 +38,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     updatedAt: new Date().toISOString(),
   };
 
-  writeProducts(products);
+  try {
+    writeProducts(products);
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 503 });
+  }
   return NextResponse.json(products[idx]);
 }
 
@@ -55,6 +59,10 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  writeProducts(filtered);
+  try {
+    writeProducts(filtered);
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 503 });
+  }
   return NextResponse.json({ ok: true });
 }

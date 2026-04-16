@@ -1,11 +1,11 @@
 import { MetadataRoute } from "next";
-import { MOCK_PRODUCTS } from "@/components/products/ProductGrid";
+import { readProducts } from "@/lib/products-db";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://saisrinijewellers.com";
 
-  const productUrls = MOCK_PRODUCTS.map((p) => ({
-    url: `${baseUrl}/products/${typeof p.slug === "string" ? p.slug : p.slug?.current}`,
+  const productUrls = readProducts().map((p) => ({
+    url: `${baseUrl}/products/${p.slug.current}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,

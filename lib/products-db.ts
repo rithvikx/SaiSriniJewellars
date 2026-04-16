@@ -32,9 +32,15 @@ export function readProducts(): DBProduct[] {
 }
 
 export function writeProducts(products: DBProduct[]): void {
-  const dir = path.dirname(DATA_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+  try {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+  } catch (err) {
+    throw new Error(
+      `Cannot write products (read-only filesystem on Vercel — run the admin panel locally or connect a database): ${err}`
+    );
+  }
 }
 
 export function slugify(text: string): string {
