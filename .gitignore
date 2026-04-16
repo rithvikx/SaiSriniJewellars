@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment variables — never commit secrets
+.env.local
+.env.*.local
+
+# Uploaded files (user-generated content, not source code)
+public/uploads/
+
+# Claude Code local settings
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Sanity
+.sanity/

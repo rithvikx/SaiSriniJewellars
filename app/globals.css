@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+/* ─── Tailwind v4 Theme Tokens ──────────────────────────── */
+@theme {
+  --color-gold: #E9B670;
+  --color-gold-dark: #C8973D;
+  --color-gold-light: #F5D094;
+  --color-brown: #332017;
+  --color-brown-light: #5a3a1a;
+  --color-cream: #FBF7F0;
+  --color-border-soft: #E8E2D8;
+
+  --font-family-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-family-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+}
+
+/* ─── Google Fonts (fallback if next/font fails) ─────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap');
+
+/* ─── CSS Custom Properties ─────────────────────────────── */
+:root {
+  --color-gold: #E9B670;
+  --color-gold-dark: #C8973D;
+  --color-gold-light: #F5D094;
+  --color-brown: #332017;
+  --color-cream: #FBF7F0;
+  --color-border: #E8E2D8;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-above: 10;
+  --z-overlay: 20;
+  --z-sticky: 50;
+  --z-modal: 100;
+  --z-toast: 200;
+  --z-navbar: 1000;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-dm-sans, "DM Sans"), system-ui, sans-serif;
+  background-color: #ffffff;
+  color: var(--color-brown);
+  overflow-x: hidden;
+}
+
+/* ─── Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cormorant, "Cormorant Garamond"), Georgia, serif;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Accessibility: Focus-Visible ──────────────────────── */
+/* Remove default outline and replace with branded focus ring */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid #E9B670;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Stronger ring for buttons and links in dark contexts */
+.focus-gold:focus-visible {
+  outline: 2px solid #E9B670;
+  outline-offset: 4px;
+}
+
+/* Skip-to-content link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: #E9B670;
+  color: #332017;
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* ─── Accessibility: Reduced Motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .gold-shimmer {
+    animation: none !important;
+    background-position: 0 center !important;
+  }
+}
+
+/* ─── Gold Shimmer Text ──────────────────────────────────── */
+.gold-shimmer {
+  background: linear-gradient(90deg, #E9B670 25%, #fff8e7 50%, #E9B670 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ─── Luxury Grain / Noise Texture ──────────────────────── */
+/* Overlay on hero/dark sections for a high-end tactile feel */
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+/* ─── Gold Divider ───────────────────────────────────────── */
+.gold-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #E9B670, transparent);
+  margin: 1.25rem auto;
+  border: none;
+}
+
+.gold-divider-full {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #E9B670 30%, #E9B670 70%, transparent);
+  border: none;
+}
+
+/* ─── Button System ──────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #E9B670, #C8973D);
+  color: #fff;
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 44px; /* WCAG touch target */
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(233,182,112,0.4);
+}
+
+.btn-gold:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(233,182,112,0.5);
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 44px; /* WCAG touch target */
+}
+
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-outline-white:focus-visible {
+  outline: 2px solid #E9B670;
+  outline-offset: 3px;
+}
+
+/* ─── Section Spacing ────────────────────────────────────── */
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding { padding: 7rem 2rem; }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f5f5f5; }
+::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: 3px; }
+
+/* ─── Text Selection ─────────────────────────────────────── */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-brown);
+}
+
+/* ─── Utility ────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Tailwind utility helpers for inline usage */
+.hidden { display: none; }
+@media (min-width: 768px) {
+  .md\:flex  { display: flex !important; }
+  .md\:hidden { display: none !important; }
+}
