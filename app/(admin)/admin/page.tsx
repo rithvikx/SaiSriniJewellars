@@ -418,8 +418,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-    } else if (modal && modal !== "add") {
-      await fetch(`/api/admin/products/${(modal as Product)._id}`, {
+    } else if (modal && typeof modal === "object") {
+      await fetch(`/api/admin/products/${modal._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -549,9 +549,9 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       </main>
 
       {/* Modals */}
-      {(modal === "add" || (modal && modal !== "add")) && (
+      {modal !== null && (
         <ProductModal
-          initial={modal !== "add" ? (modal as Product) : undefined}
+          initial={typeof modal === "object" ? modal : undefined}
           onClose={() => setModal(null)}
           onSave={handleSave}
         />
