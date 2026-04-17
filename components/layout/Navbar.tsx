@@ -100,7 +100,7 @@ export default function Navbar() {
               }}
               priority
             />
-            <div className="hidden sm:flex flex-col" style={{ lineHeight: 1.15 }}>
+            <div className="flex flex-col" style={{ lineHeight: 1.15 }}>
               <span
                 style={{
                   fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
